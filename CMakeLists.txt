@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 3.16.3)
 
 project(OLAS VERSION 1.0)
 
+find_library(myglewlib glew NAMES glew GLEW GLEW3 DOC "glew library")
+if(${myglewlib} STREQUAL "myglewlib-NOTFOUND")
+  message(FATAL_ERROR "no glew, sad day")
+else()
+  message(STATUS "glew found as ${myglewlib}")
+endif()
+
 add_executable(${PROJECT_NAME} main.cpp)
 
 # adder use logic
@@ -41,7 +48,7 @@ endif()
 
 # check all the submodules
 if(NOT EXISTS "${PROJECT_SOURCE_DIR}/external/glfw/CMakeLists.txt")
-  message(FATAL_ERROR "The glfw submodule was not downloaded! GIT_SUBMODULE was either turned OFF or failed. Please download glfw submodule.")
+  message(FATAL_ERROR "The glfw submodule was not downloaded! GIT_SUBMODULE was either turned OFF or failed.")
 endif()
 
 add_subdirectory(external/glfw)
