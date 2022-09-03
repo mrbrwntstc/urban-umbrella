@@ -2,16 +2,25 @@ cmake_minimum_required(VERSION 3.16.3)
 
 project(OLAS VERSION 1.0)
 
-configure_file(OLASConfig.h.in OLASConfig.h)
-
 add_executable(${PROJECT_NAME} main.cpp)
+
+# adder use logic
+option(USE_ADDER "A simple library for adding two floats" ON)
+if(USE_ADDER)
+  add_subdirectory(adder)
+
+  list(APPEND EXTRA_LIBS "adder")
+  list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/adder")
+  list(APPEND EXTRA_LINK_DIRS "adder")
+
+endif()
 
 target_include_directories(${PROJECT_NAME}
   PUBLIC
     ${PROJECT_BINARY_DIR}
 )
 
-add_subdirectory(adder)
+configure_file(OLASConfig.h.in OLASConfig.h)
 
 # download all submodules
 find_package(Git QUIET)
@@ -39,18 +48,18 @@ add_subdirectory(external/glfw)
 
 target_include_directories(${PROJECT_NAME}
 PRIVATE
-  adder
   external/glfw/include
+  ${EXTRA_INCLUDES}
 )
 
 target_link_directories(${PROJECT_NAME}
   PRIVATE
-    adder
     external/glfw/src
+    ${EXTRA_LINK_DIRS}
 )
 
 target_link_libraries(${PROJECT_NAME}
 PRIVATE
-  adder
   glfw
+  ${EXTRA_LIBS}
 )
