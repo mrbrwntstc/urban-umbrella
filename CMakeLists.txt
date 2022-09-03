@@ -69,6 +69,7 @@ target_link_libraries(${PROJECT_NAME}
 PRIVATE
   glfw
   ${EXTRA_LIBS}
+  ${myglewlib}
 )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
