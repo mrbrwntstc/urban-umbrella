@@ -4,9 +4,14 @@
 
 #include "GLFW/glfw3.h"
 
-int main()
+#include "OLASConfig.h"
+
+int main(int argc, char* argv[])
 {
+  std::cout << "Hey, Zeus!" << std::endl;
   std::cout << add(72.1f, 73.0f) << std::endl;
+
+  std::cout << argv[0] << " Version " << OLAS_VERSION_MAJOR << "." << OLAS_VERSION_MINOR << std::endl;
 
   GLFWwindow *window;
   if(glfwInit() == GLFW_FALSE)
