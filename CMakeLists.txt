@@ -63,3 +63,6 @@ PRIVATE
   glfw
   ${EXTRA_LIBS}
 )
+
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(FILES "${PROJECT_BINARY_DIR}/OLASConfig.h" DESTINATION include)
