@@ -2,11 +2,18 @@ cmake_minimum_required(VERSION 3.16.3)
 
 project(OLAS VERSION 1.0)
 
-find_library(myglewlib glew NAMES glew GLEW GLEW3 DOC "glew library")
-if(${myglewlib} STREQUAL "myglewlib-NOTFOUND")
-  message(FATAL_ERROR "no glew, sad day")
-else()
-  message(STATUS "glew found as ${myglewlib}")
+# find_library(myglewlib glew NAMES glew GLEW GLEW3 DOC "glew library")
+# if(${myglewlib} STREQUAL "myglewlib-NOTFOUND")
+#   message(FATAL_ERROR "no glew, sad day")
+# else()
+#   message(STATUS "glew found as ${myglewlib}")
+# endif()
+
+set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};cmake")
+
+find_package(GLEW)
+if(NOT GLEW_FOUND)
+  message(FATAL_ERROR "Package GLEW not found")
 endif()
 
 add_executable(${PROJECT_NAME} main.cpp)
@@ -57,6 +64,7 @@ target_include_directories(${PROJECT_NAME}
 PRIVATE
   external/glfw/include
   ${EXTRA_INCLUDES}
+  ${GLEW_INCLUDE_DIRS}
 )
 
 target_link_directories(${PROJECT_NAME}
@@ -69,7 +77,7 @@ target_link_libraries(${PROJECT_NAME}
 PRIVATE
   glfw
   ${EXTRA_LIBS}
-  ${myglewlib}
+  ${GLEW_LIBRARIES}
 )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
